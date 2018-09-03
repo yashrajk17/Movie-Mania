@@ -1,0 +1,42 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="search" style="text-align:center">
+  <nav class="navbar navbar-default navbar-fixed-top search">
+    <form class="form-inline">
+      <input class="form-control mr-sm-2 btnSearch" list="movieName" type="search" #data placeholder="Search" aria-label="Search">
+      <datalist id="movieName">
+          <option *ngFor="let movie of movieData" [value]="movie.movie_title" ></option>
+      </datalist>
+      <button class="btn btn-outline-success my-2 my-sm-0" type = "button" (click) = "search(data.value)">Search</button>
+    </form>
+  </nav>
+</div>
+<div class="sidenav">
+    <div class="filter">
+        <span>Filter By : </span><br>
+        Language<br>
+        <div class="checkbox" *ngFor = "let lang of languageList">
+          <label><input type="checkbox" [value]="lang" #langcheck (click) = "filterLang(langcheck.value)" >{{lang}}</label>
+        </div>
+        Country<br>
+        <div class="checkbox" *ngFor = "let con of countryList">
+          <label><input type="checkbox" [value]="con" #conCheck (click) = "filterCountry(conCheck.value)" >{{con}}</label>
+        </div>
+    </div>
+    <div class="sortby">
+        <span>Sort By : </span><br>
+        Popularity<br>
+        <div class="radio">
+          <label><input type="radio" value="" name = "sort" (click) = "orderBy('content_rating',false)">Low to High</label>
+          <label><input type="radio" value="" name = "sort" (click) = "orderBy('content_rating',true)">High to Low</label>
+        </div>
+        Title Year<br>
+        <div class="radio">
+            <label><input type="radio" value="" name = "sort" (click) = "orderBy('title_year',false)" >Low to High</label>
+            <label><input type="radio" value="" name = "sort" (click) = "orderBy('title_year',true)" >High to Low</label>
+        </div>
+    </div>
+</div>
+
+<h4 class="title" >Search Results</h4>
+<span *ngFor = "let c of movieData | movieFilter : 'movie_title' : movieTitle | filter : 'language' : lang | filter : 'country' : con | sortBy : order : reverse">
+  <app-s-result [c]="c"></app-s-result></span>
